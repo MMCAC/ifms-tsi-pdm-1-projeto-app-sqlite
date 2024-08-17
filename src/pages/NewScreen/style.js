@@ -22,9 +22,26 @@ export const styles = StyleSheet.create({
     marginTop: 16,
     width: '70%',
     paddingVertical: 4,
+    paddingHorizontal: 8,
     borderWidth: 1,
     borderColor: '#9E68CA',
     borderRadius: 4,
+  },
+  buttonContainer: {
+    width: '80%',
+    marginTop: 16,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  button: {
+    backgroundColor: '#9E68CA',
+    width: '40%',
+    paddingVertical: 12,
+    alignItems: 'center'
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 20,
   },
 });
 
