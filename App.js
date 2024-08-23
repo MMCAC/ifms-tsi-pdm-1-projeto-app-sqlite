@@ -2,9 +2,16 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialIcons, FontAwesome } from '@expo/vector-icons';
 
+
+
+
+
 // importação das telas
 import HomeScreen from './src/pages/HomeScreen';
 import NewScreen from './src/pages/NewScreen';
+
+
+
 
 const Tab = createBottomTabNavigator();
 
