@@ -12,6 +12,7 @@ export default function HomeScreen() {
     {
       id: 1,
       especie: 'Cachorro',
+      nome: 'José Luis',
       raca: 'SRD',
       porteAnimal: 'pequeno',
       corPredominante: 'caramelo',
@@ -20,10 +21,30 @@ export default function HomeScreen() {
     {
       id: 2,
       especie: 'Gato',
+      nome: 'Zoe',
       raca: 'SRD',
       porteAnimal: 'pequeno',
       corPredominante: 'cinza',
       observacao: 'Foi perdido próximo à rodoviária.'
+    },
+    {
+      id: 3,
+      especie: 'Cachorro',
+      nome: 'Jaquinha',
+      raca: 'SRD',
+      porteAnimal: 'médio',
+      corPredominante: 'preto e amarelo',
+      observacao: 'Foi perdido próximo à padaria.'
+    },
+    
+    {
+      id: 4,
+      especie: 'Gato',
+      nome: 'Luiza',
+      raca: 'Angorá',
+      porteAnimal: 'pequeno',
+      corPredominante: 'marrom',
+      observacao: 'Fugiu de casa.'
     },
   ];
 
@@ -34,7 +55,7 @@ export default function HomeScreen() {
       <FlatList 
         data={data}
         renderItem={({ item }) => (
-          <Item especie={item.especie} raca={item.raca} />
+          <Item pet={item} especie={item.especie} raca={item.raca} nome={item.nome} />
         )}
         keyExtractor={(item) => item.id}
       />
