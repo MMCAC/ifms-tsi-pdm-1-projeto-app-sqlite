@@ -1,6 +1,14 @@
-import { Alert, FlatList, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
-import { SQLiteProvider, useSQLiteContext } from 'expo-sqlite';
 import { useState, useEffect } from 'react';
+import { 
+  Alert, 
+  FlatList, 
+  Pressable, 
+  StyleSheet, 
+  Text, 
+  TextInput, 
+  View,
+} from 'react-native';
+import { SQLiteProvider, useSQLiteContext } from 'expo-sqlite';
 import { AntDesign } from '@expo/vector-icons';
 
 
@@ -21,9 +29,8 @@ const iniciarBancoDeDados = async (db) => {
     `)
     console.log('Banco de Dados inicializado')
   } catch (error) {
-    console.log('Erro ao iniciar o Banco de Dados.');
+    console.log('Erro ao iniciar o Banco de Dados. ', error);
   }
-  
 }
 
 
@@ -181,8 +188,10 @@ const Conteudo = () => {
   // função para obter todos os funcion
   const getUsuarios = async () => {
     try {
-      const allRows = await db.getAllAsync('SELECT * FROM usuario');
-      setUsuarios(allRows);
+      // consultar a tabela
+      const todosRegistros = await db.getAllAsync('SELECT * FROM usuario');
+      // armazenar os dados da tabela no hook
+      setUsuarios(todosRegistros);
     } catch (error) {
       console.log('Erro ao ler os dados dos usuários: ', error)
     }
@@ -190,12 +199,16 @@ const Conteudo = () => {
 
   // CREATE / INSERT
   const confirmarSalvar = () => {
-    if (usuario.nome.length === 0 || usuario.email.length === 0 | usuario.telefone.length === 0) {
-      Alert.alert('Atenção!', 'Por favor, entre com todos os dados!')
+    if (usuario.nome.length === 0 || usuario.email.length === 0 || usuario.telefone.length === 0) {
+      Alert.alert('Atenção!', 'Por favor, preencha todos os dados!');
     } else {
       Alert.alert('Atenção!', 'Usuário salvo com sucesso!')
       adicionarUsuario(usuario);
+
+      // limpart os campos do formulár
       setUsuario({nome: '', email: '', telefone: ''});
+
+      // ocultar o formulario
       setMostrarFormulario(false);
     }
   }
@@ -203,13 +216,13 @@ const Conteudo = () => {
   // função para adicionar um usuário
   const adicionarUsuario = async (novoUsuario) => {
     try {
+      // montar a query de inserção
       const query = await db.prepareAsync('INSERT INTO usuario (nome, email, telefone) VALUES (?, ?, ?)')
       await query.executeAsync([novoUsuario.nome, novoUsuario.email, novoUsuario.telefone]);
       await getUsuarios();
     } catch (error) {
       console.log('Erro ao adicionar o usuário', error)
     }
-
   }
 
   // UPDATE
@@ -261,12 +274,10 @@ const Conteudo = () => {
 
   // obter todos os usuários ao abrir o aplicativo
   useEffect(() => {
-    // adicionarUsuario({nome: 'Vinicius', email: 'vinicius@email.com', telefone: '1111111'});
-    // excluirTodosUsuarios();
     getUsuarios();
   }, []);
 
-
+  // parte visual do componente
   return (
     <View style={styles.contentContainer}>
       {usuarios.length === 0 ? (
@@ -274,7 +285,7 @@ const Conteudo = () => {
       ) : (
         <FlatList 
           data={usuarios}
-          renderItem={({item}) => (<UsuarioBotao usuario={item} excluirUsuario={excluirUsuario} atualizarUsuario={atualizarUsuario} />)}
+          renderItem={({ item }) => (<UsuarioBotao usuario={item} excluirUsuario={excluirUsuario} atualizarUsuario={atualizarUsuario} />)}
           keyExtractor={(item) => item.id.toString()}
         />
       )}
@@ -298,7 +309,6 @@ const Conteudo = () => {
             style={styles.icon}
           />
       </View>
-
     </View>
   );
 }
